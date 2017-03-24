@@ -3,10 +3,10 @@
 public class GameOverManager : MonoBehaviour
 {
     public PlayerHealth playerHealth;
-
+    public float restartDelay = 5f;
 
     Animator anim;
-
+    float restartTimer;
 
     void Awake()
     {
@@ -18,7 +18,18 @@ public class GameOverManager : MonoBehaviour
     {
         if (playerHealth.currentHealth <= 0)
         {
+            // ... tell the animator the game is over.
             anim.SetTrigger("GameOver");
+
+            // .. increment a timer to count up to restarting.
+            restartTimer += Time.deltaTime;
+
+            // .. if it reaches the restart delay...
+            if (restartTimer >= restartDelay)
+            {
+                // .. then reload the currently loaded level.
+                Application.LoadLevel(Application.loadedLevel);
+            }
         }
     }
 }
